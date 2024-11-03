@@ -2,6 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:waveconnect/resources/auth_methods.dart';
+import 'package:waveconnect/responsive/mobile_screen_layout.dart';
+import 'package:waveconnect/responsive/responsive_layout_screen.dart';
+import 'package:waveconnect/responsive/web_screen_layout.dart';
+import 'package:waveconnect/screens/signup_screen.dart';
 import 'package:waveconnect/utils/colors.dart';
 import 'package:waveconnect/utils/utils.dart';
 import 'package:waveconnect/widgets/text_field_input.dart';
@@ -34,13 +38,28 @@ class _LoginScreenState extends State<LoginScreen> {
       password: _passwordcontroller.text,
     );
     if (res == "success") {
-      //Nothing
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => const ResponsiveLayout(
+            mobilescreenlayout: MobileScreenLayout(),
+            webscreenlayout: WebScreenLayout(),
+          ),
+        ),
+      );
     } else {
       showSnackBar(res, context);
     }
     setState(() {
       _isLoading = false;
     });
+  }
+
+  void navigateToSignup() {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => const SignupScreen(),
+      ),
+    );
   }
 
   @override
@@ -85,13 +104,6 @@ class _LoginScreenState extends State<LoginScreen> {
               InkWell(
                 onTap: loginUser,
                 child: Container(
-                  child: _isLoading
-                      ? const Center(
-                          child: CircularProgressIndicator(
-                            color:primaryColor,
-                          ),
-                        )
-                      : const Text('Log in'),
                   width: double.infinity,
                   alignment: Alignment.center,
                   padding: const EdgeInsets.symmetric(vertical: 12),
@@ -102,6 +114,13 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                       color: blueColor),
+                  child: _isLoading
+                      ? const Center(
+                          child: CircularProgressIndicator(
+                            color: primaryColor,
+                          ),
+                        )
+                      : const Text('Log in'),
                 ),
               ),
               const SizedBox(
@@ -119,7 +138,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   GestureDetector(
-                    onTap: () {},
+                    onTap: navigateToSignup,
                     child: Container(
                       padding: const EdgeInsets.symmetric(vertical: 8),
                       child: const Text(
