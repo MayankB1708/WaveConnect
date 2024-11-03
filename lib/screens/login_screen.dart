@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:waveconnect/resources/auth_methods.dart';
 import 'package:waveconnect/utils/colors.dart';
+import 'package:waveconnect/utils/utils.dart';
 import 'package:waveconnect/widgets/text_field_input.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -14,12 +16,31 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailcontroller = TextEditingController();
   final TextEditingController _passwordcontroller = TextEditingController();
+  bool _isLoading = false;
 
   @override
   void dispose() {
     super.dispose();
     _emailcontroller.dispose();
     _passwordcontroller.dispose();
+  }
+
+  void loginUser() async {
+    setState(() {
+      _isLoading = true;
+    });
+    String res = await AuthMethods().loginUser(
+      email: _emailcontroller.text,
+      password: _passwordcontroller.text,
+    );
+    if (res == "success") {
+      //Nothing
+    } else {
+      showSnackBar(res, context);
+    }
+    setState(() {
+      _isLoading = false;
+    });
   }
 
   @override
@@ -62,8 +83,15 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               //login button
               InkWell(
+                onTap: loginUser,
                 child: Container(
-                  child: const Text('Log in'),
+                  child: _isLoading
+                      ? const Center(
+                          child: CircularProgressIndicator(
+                            color:primaryColor,
+                          ),
+                        )
+                      : const Text('Log in'),
                   width: double.infinity,
                   alignment: Alignment.center,
                   padding: const EdgeInsets.symmetric(vertical: 12),

@@ -6,22 +6,21 @@ import 'package:waveconnect/responsive/mobile_screen_layout.dart';
 import 'package:waveconnect/responsive/responsive_layout_screen.dart';
 import 'package:waveconnect/responsive/web_screen_layout.dart';
 import 'package:waveconnect/screens/login_screen.dart';
-import 'package:waveconnect/screens/signup_screen.dart';
 import 'package:waveconnect/utils/colors.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  if(kIsWeb){
+  if (kIsWeb) {
     await Firebase.initializeApp(
-      options: const FirebaseOptions(apiKey: "AIzaSyACEV7-CUuTyTVEsUBIwHMqBnHr--DHEKI", 
-      appId: "1:946834348663:web:c7b2f2ba04be8f5d3e4472", 
-      messagingSenderId:"946834348663", 
-      projectId: "waveconnect101",
-      storageBucket: "waveconnect101.firebasestorage.app",
-       ),
+      options: const FirebaseOptions(
+        apiKey: "AIzaSyACEV7-CUuTyTVEsUBIwHMqBnHr--DHEKI",
+        appId: "1:946834348663:web:c7b2f2ba04be8f5d3e4472",
+        messagingSenderId: "946834348663",
+        projectId: "waveconnect101",
+        storageBucket: "waveconnect101.firebasestorage.app",
+      ),
     );
-  }
-  else{
+  } else {
     await Firebase.initializeApp();
   }
   runApp(const MyApp());
@@ -43,7 +42,7 @@ class MyApp extends StatelessWidget {
       //   webscreenlayout: WebScreenLayout(),
       // ),
 
-      home: SignupScreen(),
+      home: LoginScreen(),
     );
   }
 }
