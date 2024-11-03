@@ -3,6 +3,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:waveconnect/resources/auth_methods.dart';
 import 'package:waveconnect/utils/colors.dart';
 import 'package:waveconnect/utils/utils.dart';
 import 'package:waveconnect/widgets/text_field_input.dart';
@@ -20,6 +21,7 @@ class _LoginScreenState extends State<SignupScreen> {
   final TextEditingController _biocontroller = TextEditingController();
   final TextEditingController _usernamecontroller = TextEditingController();
   Uint8List? _image;
+  bool _isLoading=false;
 
   @override
   void dispose() {
@@ -35,6 +37,20 @@ class _LoginScreenState extends State<SignupScreen> {
     setState(() {
       _image = im;
     });
+  }
+
+  void signUpUser() async{
+    String res=await AuthMethods().signupuser(
+      email: _emailcontroller.text, 
+      password: _passwordcontroller.text,
+      username: _usernamecontroller.text, 
+      bio: _biocontroller.text, 
+      file: _image!,
+      );
+
+      if(res!='success'){
+        showSnackBar(res,context);
+      }
   }
 
   @override
@@ -122,6 +138,7 @@ class _LoginScreenState extends State<SignupScreen> {
               ),
               //login button
               InkWell(
+                onTap: signUpUser,
                 child: Container(
                   child: const Text('Sign up'),
                   width: double.infinity,
