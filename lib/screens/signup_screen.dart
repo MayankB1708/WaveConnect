@@ -19,7 +19,6 @@ class SignupScreen extends StatefulWidget {
   State<SignupScreen> createState() => _SignupScreenState();
 }
 
-
 class _SignupScreenState extends State<SignupScreen> {
   final TextEditingController _emailcontroller = TextEditingController();
   final TextEditingController _passwordcontroller = TextEditingController();
@@ -45,31 +44,38 @@ class _SignupScreenState extends State<SignupScreen> {
   }
 
   void signUpUser() async {
+    //set loading to true
     setState(() {
       _isLoading = true;
     });
     String res = await AuthMethods().signupuser(
-      email: _emailcontroller.text,
-      password: _passwordcontroller.text,
-      username: _usernamecontroller.text,
-      bio: _biocontroller.text,
-      file: _image!,
-    );
-
-    setState(() {
-      _isLoading = false;
-    });
-    if (res != 'success') {
-      showSnackBar(res, context);
+        email: _emailcontroller.text,
+        password: _passwordcontroller.text,
+        username: _usernamecontroller.text,
+        bio: _biocontroller.text,
+        file: _image!);
+    if (res == 'success') {
+      setState(() {
+        _isLoading = false;
+      });
+      if (context.mounted) {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (context) => const ResponsiveLayout(
+              mobilescreenlayout: MobileScreenLayout(),
+              webscreenlayout: WebScreenLayout(),
+            ),
+          ),
+        );
+      }
+    } else {
+      setState(() {
+        _isLoading = false;
+      });
+      if (context.mounted) {
+        showSnackBar(res, context);
+      }
     }
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(
-        builder: (context) => const ResponsiveLayout(
-          mobilescreenlayout: MobileScreenLayout(),
-          webscreenlayout: WebScreenLayout(),
-        ),
-      ),
-    );
   }
 
   void navigateToLogin() {
@@ -83,6 +89,7 @@ class _SignupScreenState extends State<SignupScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 32),
@@ -163,7 +170,7 @@ class _SignupScreenState extends State<SignupScreen> {
               const SizedBox(
                 height: 24,
               ),
-              //login button
+              //signup button
               InkWell(
                 onTap: signUpUser,
                 child: Container(
@@ -195,7 +202,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-                    child: const Text("Have an account?"),
+                    child: const Text("Already have an account?"),
                     padding: const EdgeInsets.symmetric(
                       vertical: 8,
                     ),

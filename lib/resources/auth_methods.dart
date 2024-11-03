@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:waveconnect/resources/storage_methods.dart';
+import 'package:waveconnect/models/user.dart' as model;
 
 class AuthMethods {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -21,29 +22,34 @@ class AuthMethods {
       if (email.isNotEmpty &&
           password.isNotEmpty &&
           username.isNotEmpty &&
-          bio.isNotEmpty &&
-          file != null) {
+          bio.isNotEmpty) {
         //registering user
         UserCredential cred = await _auth.createUserWithEmailAndPassword(
             email: email, password: password);
-        print(cred.user!.uid);
 
         String photourl = await StorageMethods()
             .uploadImagetoStorage('profilePics', file, false);
 
         //add user to the database
-        await _firestore.collection('users').doc(cred.user!.uid).set({
-          'username': username,
-          'uid': cred.user!.uid,
-          'email': email,
-          'bio': bio,
-          'followers': [],
-          'following': [],
-          'photourl': photourl,
-        });
+        model.User user = model.User(
+          uid: cred.user!.uid,
+          email: email,
+          username: username,
+          bio: bio,
+          photourl: photourl,
+          followers: [],
+          following: [],
+        );
+
+        await _firestore
+            .collection('users')
+            .doc(cred.user!.uid)
+            .set(user.toJson());
         res = "success";
+      } else {
+        res = "Please fill in all the fields";
       }
-    } catch (err) {
+    } catch (err) {  // This helps with debugging
       res = err.toString();
     }
     return res;
