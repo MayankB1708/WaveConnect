@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "946834348663",
+    "project_id": "waveconnect101",
+    "storage_bucket": "waveconnect101.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:946834348663:android:db2a581e6e6fd69a3e4472",
+        "android_client_info": {
+          "package_name": "com.example.waveconnect"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDk4yZSOuzZkr06-uH8uvdnKM8V398zMtM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
