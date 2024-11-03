@@ -6,6 +6,7 @@ import 'package:waveconnect/responsive/mobile_screen_layout.dart';
 import 'package:waveconnect/responsive/responsive_layout_screen.dart';
 import 'package:waveconnect/responsive/web_screen_layout.dart';
 import 'package:waveconnect/screens/login_screen.dart';
+import 'package:waveconnect/screens/signup_screen.dart';
 import 'package:waveconnect/utils/colors.dart';
 
 void main() async {
@@ -42,7 +43,7 @@ class MyApp extends StatelessWidget {
       //   webscreenlayout: WebScreenLayout(),
       // ),
 
-      home: LoginScreen(),
+      home: SignupScreen(),
     );
   }
 }
