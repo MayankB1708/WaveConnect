@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:waveconnect/responsive/mobile_screen_layout.dart';
+import 'package:waveconnect/responsive/responsive_layout_screen.dart';
+import 'package:waveconnect/responsive/web_screen_layout.dart';
+import 'package:waveconnect/utils/colors.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -6,10 +10,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'WaveConnect',
-      theme: ThemeData(
-        primarySwatch: Colors.cyan,
-      ),
+      theme: ThemeData.dark().copyWith(scaffoldBackgroundColor: mobileBackgroundColor,),
+      home:const ResponsiveLayout(
+        mobilescreenlayout: MobileScreenLayout(), 
+        webscreenlayout: WebScreenLayout(),
+        ),
     );
   }
 }
