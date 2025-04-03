@@ -9,6 +9,13 @@ class AuthMethods {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
+  Future<model.User> getUserDetails() async {
+    User currentUser = _auth.currentUser!;
+    DocumentSnapshot snap =
+        await _firestore.collection('users').doc(currentUser.uid).get();
+    return model.User.fromSnap(snap);
+  }
+
   //signup the user
   Future<String> signupuser({
     required String email,
@@ -49,7 +56,8 @@ class AuthMethods {
       } else {
         res = "Please fill in all the fields";
       }
-    } catch (err) {  // This helps with debugging
+    } catch (err) {
+      // This helps with debugging
       res = err.toString();
     }
     return res;
